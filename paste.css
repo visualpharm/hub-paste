@@ -1,0 +1,11 @@
+.pchip.pp-tile { flex-direction: column; align-items: stretch; gap: 4px; width: 200px; max-width: 100%; padding: 6px 8px; position: relative; cursor: pointer; }
+.pchip.pp-tile:hover, .pchip.pp-tile:focus-visible { border-color: var(--ring, currentColor); outline: none; }
+.pp-snip { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; font-family: var(--font-code, monospace); font-size: var(--text-xs); line-height: 1.35; color: var(--muted-foreground); word-break: break-all; min-height: 4em; }
+.pchip.pp-tile .nm { font-weight: 600; }
+.pchip.pp-tile .x { position: absolute; top: 2px; right: 2px; }
+.pp-back { position: fixed; inset: 0; z-index: 1000; background: rgba(0, 0, 0, .45); display: flex; align-items: center; justify-content: center; padding: 16px; }
+.pp-box { background: var(--background, #fff); color: var(--foreground, #111); border: 1px solid var(--border); border-radius: var(--radius); width: min(900px, 100%); max-height: 85vh; display: flex; flex-direction: column; }
+.pp-head { display: flex; align-items: center; gap: var(--space-2); padding: 8px 12px; border-bottom: 1px solid var(--border); }
+.pp-sp { flex: 1; }
+.pp-text { margin: 0; padding: 12px; overflow: auto; white-space: pre-wrap; word-break: break-word; font-family: var(--font-code, monospace); font-size: var(--text-sm); }
+.pp-toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 1001; max-width: min(520px, 92vw); background: var(--background, #fff); color: var(--foreground, #111); border: 1px solid var(--destructive, #c00); border-radius: var(--radius); padding: 10px 14px; font-size: var(--text-sm); box-shadow: 0 4px 16px rgba(0, 0, 0, .25); }
