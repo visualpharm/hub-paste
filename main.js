@@ -1,7 +1,7 @@
 // Большая вставка → вложение-файл. Перехватываем ⌘V на поле ввода и отдаём штатной загрузке файл paste-*.txt
 // (тем же событием paste, но с файлом): дальше всё как с картинкой — /api/upload, ~/.hub-core/attachments/…
 const LIMIT = 3000;                 // знаков: короче — остаётся текстом
-const MAX = 1024 * 1024;            // байт: потолок вставки
+const SHOWN = 200_000;              // знаков: больше в просмотре не показываем целиком (страница не должна виснуть)
 const texts = new Map();            // имя файла → текст, для плитки и просмотра
 let own = false;                    // наше синтетическое событие не перехватываем второй раз
 
@@ -28,7 +28,9 @@ export default function register(hub) {
     e.preventDefault();
     e.stopImmediatePropagation();
     const blob = new Blob([text], { type: "text/plain" });
-    if (blob.size > MAX) return toast(`Вставка ${num(text.length)} знаков — больше потолка в ${kb(MAX)}. Разбейте текст на части или прикрепите файл.`);
+    // потолок — у самого хаба (snapshot.upload.max_bytes, настройка attachments.max_mb); свой у плагина больше не стоит
+    const max = hub.snapshot().upload?.max_bytes;
+    if (max && blob.size > max) return toast(`Вставка ${kb(blob.size)} — больше лимита хаба в ${kb(max)} (attachments.max_mb в настройках).`);
     const name = `paste-${Date.now().toString(36)}.txt`;
     texts.set(name, text);
     const dt = new DataTransfer();
@@ -48,8 +50,9 @@ export default function register(hub) {
     del.type = "button";
     head.append(hub.el("b", null, `Вставка · ${num(text.length)} знаков`), hub.el("span", "pp-sp"), del, close);
     const pre = hub.el("pre", "pp-text");
-    pre.textContent = text;
+    pre.textContent = text.length > SHOWN ? text.slice(0, SHOWN) : text;
     box.append(head, pre);
+    if (text.length > SHOWN) box.append(hub.el("p", "pp-more", `Показаны первые ${num(SHOWN)} знаков из ${num(text.length)}; сессия получает файл целиком.`));
     back.append(box);
     const off = () => { back.remove(); document.removeEventListener("keydown", esc, true); };
     const esc = (e) => { if (e.key === "Escape") { e.stopPropagation(); off(); } };

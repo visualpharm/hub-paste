@@ -9,3 +9,4 @@
 .pp-sp { flex: 1; }
 .pp-text { margin: 0; padding: 12px; overflow: auto; white-space: pre-wrap; word-break: break-word; font-family: var(--font-code, monospace); font-size: var(--text-sm); }
 .pp-toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 1001; max-width: min(520px, 92vw); background: var(--background, #fff); color: var(--foreground, #111); border: 1px solid var(--destructive, #c00); border-radius: var(--radius); padding: 10px 14px; font-size: var(--text-sm); box-shadow: 0 4px 16px rgba(0, 0, 0, .25); }
+.pp-more { margin: 0; padding: 8px 12px; border-top: 1px solid var(--line); }
